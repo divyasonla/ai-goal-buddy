@@ -95,10 +95,10 @@ const StudentWeeklyPage = () => {
   return (
     <AppLayout>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Weekly Goals</h1>
-            <p className="text-muted-foreground">Plan and track your weekly objectives</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-foreground">Weekly Goals</h1>
+            <p className="text-sm text-muted-foreground">Plan and track your weekly objectives</p>
           </div>
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
@@ -156,30 +156,34 @@ const StudentWeeklyPage = () => {
             ) : goals.length === 0 ? (
               <p className="text-center py-8 text-muted-foreground">No weekly goals yet. Add your first one!</p>
             ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Week</TableHead>
-                    <TableHead>Goal</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Challenges</TableHead>
-                    <TableHead className="w-[60px]"></TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {goals.sort((a, b) => b.week.localeCompare(a.week)).map((goal) => (
-                    <TableRow key={goal.rowIndex}>
-                      <TableCell className="whitespace-nowrap text-sm">{goal.week}</TableCell>
-                      <TableCell className="max-w-[200px] truncate">{goal.weeklyGoal}</TableCell>
-                      <TableCell><Badge variant={statusColor(goal.status)}>{goal.status}</Badge></TableCell>
-                      <TableCell className="max-w-[150px] truncate text-sm text-muted-foreground">{goal.challenges || "—"}</TableCell>
-                      <TableCell>
-                        <Button variant="ghost" size="icon" onClick={() => openEdit(goal)}><Edit className="h-4 w-4" /></Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <div className="overflow-x-auto -mx-6">
+                <div className="inline-block min-w-full align-middle px-6">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Week</TableHead>
+                        <TableHead>Goal</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="hidden sm:table-cell">Challenges</TableHead>
+                        <TableHead className="w-[60px]"></TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {goals.sort((a, b) => b.week.localeCompare(a.week)).map((goal) => (
+                        <TableRow key={goal.rowIndex}>
+                          <TableCell className="whitespace-nowrap text-sm">{goal.week}</TableCell>
+                          <TableCell className="max-w-[200px] truncate">{goal.weeklyGoal}</TableCell>
+                          <TableCell><Badge variant={statusColor(goal.status)}>{goal.status}</Badge></TableCell>
+                          <TableCell className="hidden sm:table-cell max-w-[150px] truncate text-sm text-muted-foreground">{goal.challenges || "—"}</TableCell>
+                          <TableCell>
+                            <Button variant="ghost" size="icon" onClick={() => openEdit(goal)}><Edit className="h-4 w-4" /></Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
             )}
           </CardContent>
         </Card>
