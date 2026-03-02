@@ -14,3 +14,4 @@ verify_jwt = false
 
 [functions.fetch-reports]
 verify_jwt = false
+
